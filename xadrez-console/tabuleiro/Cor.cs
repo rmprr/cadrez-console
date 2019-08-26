@@ -11,6 +11,7 @@ namespace tabuleiro
         Black,
         Yellow,
         Blue,
-        Green
+        Green,
+        White
     }
 }

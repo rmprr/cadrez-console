@@ -11,32 +11,54 @@ namespace xadrez_console
 
             try
             {
-                Tabuleiro Tab;
+                PartidaDeXadrez partida = new PartidaDeXadrez();
 
-                Tab = new Tabuleiro(8, 8);
-
-                Tab.colocarPeca(new Torre(Tab, Cor.Black), new Posicao(0, 0));
-                Tab.colocarPeca(new Torre(Tab, Cor.Red), new Posicao(1, 3));
-                Tab.colocarPeca(new Rei(Tab, Cor.Green), new Posicao(2, 4));
-                Tab.colocarPeca(new Rei(Tab, Cor.Blue), new Posicao(3, 3));
+                while (!partida.terminada)
+                {
 
 
+                    try
+                    {
 
-                Tela.imprimirTabuleiro(Tab);
+                        Console.Clear();
+                        Tela.imprimirPartida(partida);
+                        Console.WriteLine(); Console.WriteLine();
+                        Console.Write("Peça a mover: ");
+                        Posicao origem = Tela.lerPosicaoXadrez().toPosicao();
+                        partida.validarPosicaoDeOrigem(origem);
 
-                //PosicaoXadrez Posicao = new PosicaoXadrez('c', 7);
+                        // mostrar posições possiveis para a peça escolhida para mover
+                        bool[,] posicoesPossiveis = partida.tab.peca(origem).movimentosPossiveis();
+                        Console.Clear();
+                        Tela.imprimirTabuleiro(partida.tab, posicoesPossiveis);
+                        Console.WriteLine(); Console.WriteLine();
 
-                //Console.WriteLine(Posicao);
-                //Console.WriteLine(Posicao.toPosicao()); 
+
+                        Console.Write("Destino da Peça: ");
+                        Posicao destino = Tela.lerPosicaoXadrez().toPosicao();
+                        partida.validarPosicaoDeDestino(origem, destino);
+
+                        partida.realizaJogada(origem, destino);
+                    }
+                    catch (TabuleiroException ex)
+                    {
+
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(ex.Message);
+                        Console.ReadLine();
+                        Console.ResetColor();
+                    }
+                }
+
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                throw;
             }
 
             Console.ReadLine();
         }
     }
 }
+

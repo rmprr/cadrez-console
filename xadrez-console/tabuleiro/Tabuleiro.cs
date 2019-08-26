@@ -25,7 +25,7 @@ namespace tabuleiro
 
         public Peca peca(Posicao pos)
         {
-            return pecas[pos.linha, pos.coluna];
+            return pecas[pos.linha, pos.coluna]; // retorna a peça que está nesta posicao pos
         }
 
         public bool existePeca(Posicao pos) // vai validar se existe alguma peça na posição do tabuleiro e já valida se a posição é valida para o tamanho do tabuleiro
@@ -44,6 +44,23 @@ namespace tabuleiro
             pecas[pos.linha, pos.coluna] = p; // coloca a peça na posição "pos" do tabuleiro (matriz de pecas)
             p.posicao = pos; // atualiza o atributo posicao da peça 
         }
+
+
+        public Peca retirarPeca(Posicao pos)
+        {
+            if (peca(pos) == null)
+            {
+                return null;
+            }
+
+            Peca aux = peca(pos);
+            aux.posicao = null;
+
+            pecas[pos.linha, pos.coluna] = null;
+
+            return aux;
+        }
+
 
         public bool posicaoValida(Posicao pos) // vai verificar se a posição não sai fora do tabuleiro
         {
