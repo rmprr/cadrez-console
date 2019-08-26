@@ -13,15 +13,16 @@ namespace xadrez
         public bool terminada { get; private set; }
         private HashSet<Peca> pecas;
         private HashSet<Peca> capturadas;
-        private bool xeque;
+        public bool xeque { get; private set; }
 
-
+       
         public PartidaDeXadrez()
         {
             tab = new Tabuleiro(8, 8);
             turno = 1;
             jogadorAtual = Cor.White;
             terminada = false;
+            xeque = false;
             pecas = new HashSet<Peca>();
             capturadas = new HashSet<Peca>();
             colocarPecas();
@@ -118,11 +119,23 @@ namespace xadrez
         }
 
 
+        //public bool estaXequeMate(Cor cor)
+        //{
+        //    Peca R = rei(cor);
+
+        //    foreach (Peca item in pecasEmJogo(cor))
+        //    {
+        //        bool[,] mat = item.movimentosPossiveis();
+
+        //    }
+
+        //    return false;
+        //}
 
         public void realizaJogada(Posicao origem, Posicao destino)
         {
             Peca pecaCapturada = executaMovimento(origem, destino);
-            // confirmar se não vai ficar em cheque 
+            // confirmar se não vai ficar em xeque 
             if (estaEmXeque(jogadorAtual))
             {
                 desfazMovimento(origem, destino, pecaCapturada);
@@ -137,7 +150,6 @@ namespace xadrez
             {
                 xeque = false;
             }
-
 
             turno++;
             mudaJogador();
